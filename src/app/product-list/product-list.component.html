@@ -1,0 +1,79 @@
+<div class="row mt-4">
+  <div class="col-md-10 col-9">
+    <input
+      type="text"
+      class="form-control"
+      [value]="searchTerm"
+      (input)="onSearchChange($event.target.value)"
+      id="search"
+      aria-describedby="emailHelp"
+      placeholder="Search..."
+    />
+  </div>
+  <div class="col-md-2 col-3">
+    <button
+      id="showCartModal"
+      type="button"
+      class="btn btn-primary"
+      (click)="showCartModal()"
+    >
+      <i class="fas fa-shopping-cart"></i>{{ " " }}
+      <span class="badge badge-light">{{ cartLength }}</span>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="loading; else table" class="d-flex justify-content-center mt-4">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<ng-template #table>
+  <div class="row mt-4">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Product name</th>
+            <th scope="col" sortable="price" (sort)="onSort($event)">
+              Price
+            </th>
+            <th scope="col">Quantity</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of filteredProducts">
+            <td>
+              <ngb-highlight
+                [result]="product.productName"
+                [term]="searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <p>{{ product.price | germanCurrencyFormat }}</p>
+            </td>
+            <td>
+              <app-select-quantity
+                [maximum]="getMaximum(product)"
+                [value]="getValue(product)"
+                (quantityChange)="onQuantityChanged($event, product)"
+              ></app-select-quantity>
+            </td>
+            <td>
+              <button
+                class="btn btn-primary add-to-cart"
+                type="button"
+                [disabled]="isAddDisabled(product)"
+                (click)="addToCart(product)"
+              >
+                Add to cart
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

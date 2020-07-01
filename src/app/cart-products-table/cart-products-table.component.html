@@ -1,0 +1,50 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Product name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+      <th scope="col">Subtotal</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cartProduct of cartProducts">
+      <td>{{ cartProduct.product.productName }}</td>
+      <td>
+        <app-select-quantity
+          [maximum]="getMaximum(cartProduct.product)"
+          [minimum]="1"
+          [value]="getValue(cartProduct.product)"
+          (quantityDecrement)="onQuantityDecrement(cartProduct.product)"
+          (quantityIncrement)="onQuantityIncrement(cartProduct.product)"
+        ></app-select-quantity>
+      </td>
+      <td>{{ cartProduct.product.price | germanCurrencyFormat }}</td>
+      <td>
+        {{
+          cartProduct.product.price * getValue(cartProduct.product)
+            | germanCurrencyFormat
+        }}
+      </td>
+      <td>
+        <button
+          type="button"
+          class="btn"
+          (click)="removeProduct(cartProduct.product)"
+        >
+          <i class="fas fa-trash text-danger"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="card-footer">
+  <div class="row">
+    <div class="col">
+      <div class="float-right">
+        Total price: <b>{{ totalPrice | germanCurrencyFormat }}</b>
+      </div>
+    </div>
+  </div>
+</div>

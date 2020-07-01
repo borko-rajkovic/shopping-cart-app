@@ -1,0 +1,19 @@
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button
+    type="button"
+    [disabled]="disabledDecrement"
+    (click)="onChange('decrement')"
+    class="btn btn-primary"
+  >
+    -
+  </button>
+  <button type="button" disabled class="btn btn-primary">{{ value }}</button>
+  <button
+    type="button"
+    [disabled]="disabledIncrement"
+    (click)="onChange('increment')"
+    class="btn btn-primary"
+  >
+    +
+  </button>
+</div>

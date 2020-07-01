@@ -1,0 +1,274 @@
+<form [formGroup]="radioGroupForm" class="mt-4">
+  <div
+    class="btn-group btn-group-toggle"
+    ngbRadioGroup
+    name="radioBasic"
+    formControlName="value"
+  >
+    <label id="shippingLabel" ngbButtonLabel class="btn-outline-primary">
+      <input ngbButton type="radio" [value]="0" />
+      Shipping ({{ shippingForm.invalid ? "NOT OK" : "OK" }})
+    </label>
+    <label ngbButtonLabel class="btn-outline-primary">
+      <input
+        ngbButton
+        type="radio"
+        [value]="1"
+        [disabled]="shippingForm.invalid"
+      />
+      Payment ({{ paymentForm.invalid ? "NOT OK" : "OK" }})
+    </label>
+    <label ngbButtonLabel class="btn-outline-primary">
+      <input
+        ngbButton
+        type="radio"
+        [value]="2"
+        [disabled]="shippingForm.invalid || paymentForm.invalid"
+      />
+      Overview ({{
+        isConfirmDisabled || shippingForm.invalid || paymentForm.invalid
+          ? "NOT OK"
+          : "OK"
+      }})
+    </label>
+  </div>
+</form>
+
+<!-- <hr /> -->
+
+<!-- <div class="row">
+  <div *ngFor="let step of steps" class="col">
+    <p>{{ step }}</p>
+  </div>
+</div> -->
+
+<div class="mt-4">
+  <ngb-progressbar
+    type="info"
+    [value]="progressValue"
+    [striped]="true"
+  ></ngb-progressbar>
+</div>
+
+<div class="container">
+  <div class="row mt-4">
+    <div class="col">
+      <div
+        *ngTemplateOutlet="
+          currentStep === 0 ? shipping : currentStep === 1 ? payment : overview
+        "
+      ></div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <button
+        *ngIf="currentStep === 0"
+        class="btn btn-large btn-info float-left"
+        routerLink="/"
+      >
+        Home
+      </button>
+      <button
+        *ngIf="currentStep > 0"
+        class="btn btn-large btn-info float-left"
+        (click)="onBack()"
+      >
+        Back
+      </button>
+      <button
+        *ngIf="currentStep < 2"
+        class="btn btn-large btn-info float-right"
+        (click)="validate(true)"
+      >
+        Next
+      </button>
+      <button
+        *ngIf="currentStep === 2"
+        [disabled]="isConfirmDisabled"
+        class="btn btn-large btn-success float-right"
+        (click)="onConfirm()"
+      >
+        Confirm
+      </button>
+      <button
+        class="btn btn-large btn-success float-right mr-4"
+        (click)="onSave()"
+      >
+        SAVE
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #shipping>
+  <form [formGroup]="shippingForm">
+    <div class="form-row">
+      <div class="col-md-6 mb-4">
+        <label for="firstName">First name</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="firstName"
+          [ngClass]="{
+            'is-invalid':
+              shippingControls.firstName.touched &&
+              shippingControls.firstName.errors
+          }"
+          id="firstName"
+          placeholder="First name"
+          required
+        />
+        <div
+          *ngIf="
+            (shippingControls.firstName.touched ||
+              shippingControls.firstName.dirty) &&
+            shippingControls.firstName.errors
+          "
+          class="invalid-feedback"
+          id="firstNameInvalidFeedback"
+        >
+          Field is required and must contain only letters
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <label for="secondName">Second name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="secondName"
+          [ngClass]="{
+            'is-invalid':
+              (shippingControls.secondName.touched ||
+                shippingControls.secondName.dirty) &&
+              shippingControls.secondName.errors
+          }"
+          formControlName="secondName"
+          placeholder="Second name"
+          required
+        />
+        <div
+          *ngIf="
+            shippingControls.secondName.touched &&
+            shippingControls.secondName.errors
+          "
+          class="invalid-feedback"
+        >
+          Field is required and must contain only letters
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-6 mb-4">
+        <label for="address">Address</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="address"
+          id="address"
+          [ngClass]="{
+            'is-invalid':
+              (shippingControls.address.touched ||
+                shippingControls.address.dirty) &&
+              shippingControls.address.errors
+          }"
+          placeholder="Address"
+          required
+        />
+        <div
+          *ngIf="
+            shippingControls.address.touched && shippingControls.address.errors
+          "
+          class="invalid-feedback"
+        >
+          Address is required
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <label for="telephoneNumber">Telephone number</label>
+        <input
+          type="text"
+          class="form-control"
+          id="telephoneNumber"
+          [ngClass]="{
+            'is-invalid':
+              (shippingControls.telephoneNumber.touched ||
+                shippingControls.telephoneNumber.dirty) &&
+              shippingControls.telephoneNumber.errors
+          }"
+          formControlName="telephoneNumber"
+          placeholder="Telephone number"
+          required
+        />
+        <div
+          *ngIf="
+            shippingControls.telephoneNumber.touched &&
+            shippingControls.telephoneNumber.errors
+          "
+          class="invalid-feedback"
+        >
+          Enter valid phone number
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #payment>
+  <form [formGroup]="paymentForm">
+    <div class="form-row">
+      <div class="col-md-6 mb-4">
+        <label for="accountOwner">Account Owner</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="accountOwner"
+          [ngClass]="{
+            'is-invalid':
+              paymentControls.accountOwner.touched &&
+              paymentControls.accountOwner.errors
+          }"
+          id="accountOwner"
+          placeholder="Account Owner"
+          required
+        />
+        <div
+          *ngIf="
+            (paymentControls.accountOwner.touched ||
+              paymentControls.accountOwner.dirty) &&
+            paymentControls.accountOwner.errors
+          "
+          class="invalid-feedback"
+        >
+          Field is required and must contain only letters
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <label for="IBAN">IBAN</label>
+        <input
+          type="text"
+          class="form-control"
+          id="IBAN"
+          [ngClass]="{
+            'is-invalid':
+              (paymentControls.IBAN.touched || paymentControls.IBAN.dirty) &&
+              paymentControls.IBAN.errors
+          }"
+          formControlName="IBAN"
+          placeholder="IBAN"
+          required
+        />
+        <div
+          *ngIf="paymentControls.IBAN.touched && paymentControls.IBAN.errors"
+          class="invalid-feedback"
+        >
+          IBAN not valid
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #overview>
+  <app-cart-products-table></app-cart-products-table>
+</ng-template>
