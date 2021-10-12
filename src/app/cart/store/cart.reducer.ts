@@ -1,7 +1,7 @@
 import * as CartActions from './cart.actions';
 import * as ProductListActions from '../../product-list/store/product-list.actions';
 import { IQuantities } from 'src/app/interfaces/IQuantities';
-import { Product } from 'backend/dist/models/Product';
+import { Product } from 'src/app/models/Product';
 
 export interface State {
   quantities: IQuantities;

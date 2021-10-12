@@ -20,10 +20,6 @@ const FingerprintAuth: {
   ) => void;
 } = window[FINGERPINT_AUTH];
 
-const poweredByCordova = typeof window[CORDOVA] !== 'undefined';
-
-const device: IDevice = window[DEVICE];
-
 @Injectable({
   providedIn: 'root',
 })
@@ -31,6 +27,14 @@ export class CheckoutService {
   constructor(private toastService: ToastService) {}
 
   tryFingerprintAuth() {
+    console.log(`window[CORDOVA] ${window[CORDOVA]}`);
+
+    console.log(`window[DEVICE] ${window[DEVICE]}`);
+
+    const poweredByCordova = typeof window[CORDOVA] !== 'undefined';
+
+    const device: IDevice = window[DEVICE];
+
     if (!poweredByCordova) {
       console.log('Not powered by Cordova');
       return;

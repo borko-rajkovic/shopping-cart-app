@@ -1,4 +1,3 @@
-import { AngularIbanModule } from 'angular-iban';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -58,8 +57,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
     StoreModule.forRoot(fromApp.appReducer, { metaReducers }),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot(),
-    EffectsModule.forRoot([ProductListEffects]),
-    AngularIbanModule,
+    EffectsModule.forRoot([ProductListEffects])
   ],
   providers: [],
   bootstrap: [AppComponent],

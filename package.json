@@ -27,7 +27,6 @@
     "@ngrx/effects": "^8.6.0",
     "@ngrx/router-store": "^8.6.0",
     "@ngrx/store": "^8.6.0",
-    "angular-iban": "^2.0.2",
     "bootstrap": "^4.4.0",
     "concurrently": "^5.2.0",
     "iban": "0.0.14",
