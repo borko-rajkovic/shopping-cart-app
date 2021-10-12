@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { Product } from 'backend/dist/models/Product';
+import { Product } from 'backend/src/models/Product';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

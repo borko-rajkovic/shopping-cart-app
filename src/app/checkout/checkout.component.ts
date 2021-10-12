@@ -7,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { ValidatorService } from 'angular-iban';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
@@ -54,8 +53,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.paymentForm = new FormGroup({
       accountOwner: new FormControl('', Validators.pattern(/^[a-zA-Z]+$/)),
       IBAN: new FormControl(null, [
-        Validators.required,
-        ValidatorService.validateIban,
+        Validators.required
       ]),
     });
 
